@@ -22,7 +22,8 @@
                     "value": "Demonstrativo financeiro",
                     "textStyle": {
                       "fontWeight": "bold",
-                      "fontSize": "16pt"
+                      "fontSize": "16pt",
+                      "color": "#ffffff"
                     }
                   }
                 ]
