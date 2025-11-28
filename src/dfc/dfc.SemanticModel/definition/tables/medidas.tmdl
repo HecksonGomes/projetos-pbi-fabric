@@ -1,0 +1,211 @@
+table medidas
+	lineageTag: 6656861b-29d2-4932-970c-accb252ba956
+
+	measure Saldo = ABS( SUM ( fMovimentos[ValorMovimentacao] ) )
+		formatString: #,0; (#,0)
+		lineageTag: fb546536-62a2-4c32-9c3c-477db70d795e
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Total de entradas' =
+			
+			CALCULATE(
+			    SUM ( fMovimentos[ValorMovimentacao] )
+			    , dCategorias[TipoMovimentacao] = "Entrada"
+			    , fMovimentos[Status] = "Realizado"
+			)
+		formatString: #,0
+		lineageTag: 7b095184-80ec-4448-a415-b9337380619a
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Total de saidas' =
+			
+			CALCULATE(
+			    SUM ( fMovimentos[ValorMovimentacao] )
+			    , dCategorias[TipoMovimentacao] = "Saída"
+			    , fMovimentos[Status] = "Realizado"
+			) * -1
+		formatString: #,0;-#,0
+		lineageTag: 8e301754-a872-45cb-8eb8-787b01f607d2
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Essenciais / Receita' = ```
+			
+			VAR __CustoMoradia = 
+			    CALCULATE (
+			        [Total de saidas]
+			        , dCategorias[NomeCategoria] IN { "Moradia", "Comunicação", "Alimentação" }
+			    )
+			VAR __Receita = [Total de entradas]
+			
+			RETURN DIVIDE ( __CustoMoradia, __Receita )
+			```
+		formatString: 0%
+		lineageTag: 2c4cc7a8-850a-422c-8438-e46c0140db42
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Custos / Receita' = ```
+			
+			VAR __CustosGerais = 
+			    CALCULATE (
+			        [Total de saidas]
+			        , dCategorias[NomeCategoria] <> "Investimentos"
+			    )
+			VAR __Receita = [Total de entradas]
+			
+			RETURN DIVIDE ( __CustosGerais, __Receita )
+			```
+		formatString: 0%
+		lineageTag: 26d8d9d2-6760-4137-bffb-251c247121eb
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Não essenciais / Receita' = ```
+			
+			VAR __CustoMoradia = 
+			    CALCULATE (
+			        [Total de saidas]
+			        ,NOT dCategorias[NomeCategoria]  IN { "Moradia", "Comunicação", "Alimentação" , "Investimentos" }
+			    )
+			VAR __Receita = [Total de entradas]
+			
+			RETURN DIVIDE ( __CustoMoradia, __Receita )
+			```
+		formatString: 0%
+		lineageTag: 2d2d11c9-097d-4c0d-ac22-532dfdca081a
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Investimentos / Receita' = ```
+			
+			VAR __Investimentos = 
+			    CALCULATE (
+			        [Total de saidas]
+			        , dCategorias[NomeCategoria] = "Investimentos"
+			    )
+			VAR __Receita = [Total de entradas]
+			
+			RETURN DIVIDE ( __Investimentos, __Receita )
+			```
+		formatString: 0%
+		lineageTag: 13827c3b-1fca-4a15-98d3-fbf1fc03f024
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'LM Saldo' = ```
+			
+			VAR __Limite = LASTDATE( ALL ( fMovimentos[DataMovimentacao] ) )
+			
+			VAR __Resultado = 
+			    CALCULATE(
+			        [Saldo]
+			        , DATEADD (
+			            FILTER(
+			                VALUES ( dCalendario[Data] )
+			                ,dCalendario[Data] <= __Limite
+			            )
+			            , -1 , MONTH
+			        )
+			    )
+			        
+			RETURN __Resultado 
+			
+			```
+		formatString: #,0;(#,0)
+		lineageTag: 5247fd7e-f865-4950-88e3-e79917961ea7
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'MoM Saldo' = ```
+			
+			
+			VAR __Atual = [Saldo]
+			VAR __Anterior = [LM Saldo]
+			
+			VAR __Resultado = 
+			    DIVIDE (
+			        __Atual - __Anterior,
+			        ABS ( __Anterior ) 
+			    )
+			
+			RETURN __Resultado
+			```
+		formatString: 0%
+		lineageTag: afd96fd4-3ede-4c93-a8ec-c111ac223408
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure '% Saidas pareto' = ```
+			
+			VAR _SaidaAcumulada = 
+			    CALCULATE(
+			        [Total de saidas]
+			        , WINDOW ( 
+			            1, ABS ,
+			            0, REL ,
+			            FILTER( ALLSELECTED( dCategorias[NomeCategoria] ), dCategorias[NomeCategoria] <> "Receita" ),
+			            ORDERBY( [Total de saidas], DESC )
+			        )
+			    )
+			VAR _ParetoAcumulado = 
+			    CALCULATE(
+			        [Total de saidas]
+			        , WINDOW (
+			                1 , ABS ,
+			                -1, ABS ,
+			                FILTER( ALLSELECTED( dCategorias[NomeCategoria] ), dCategorias[NomeCategoria] <> "Receita" ),
+			                ORDERBY( [Total de saidas], DESC )
+			            )
+			        )
+			
+			VAR __Resultado = DIVIDE ( _SaidaAcumulada, _ParetoAcumulado )
+			
+			RETURN  __Resultado
+			```
+		formatString: 0.0%
+		lineageTag: 98ac3cb0-85ff-4dca-8e91-09964d233d47
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'cor pareto' =
+			
+			IF( [% Saidas pareto] <= 0.8,  "#003141", "gray"  )
+		lineageTag: 3d613da5-b65d-46f6-9083-4782e2321ecf
+
+	measure 'cor mom saldo' = ```
+			
+			IF( 
+			    SELECTEDVALUE( dCategorias[TipoMovimentacao] ) = "Saída" 
+			        && [MoM Saldo] < 0 , "gray" ,
+			    IF(
+			        SELECTEDVALUE( dCategorias[TipoMovimentacao] ) = "Entrada" 
+			            && [MoM Saldo] < 0 , "red" ,
+			    IF(
+			        SELECTEDVALUE( dCategorias[TipoMovimentacao] ) = "Saída" 
+			        && [MoM Saldo] > 0 , "red" ,
+			     "gray"
+			    )
+			    )
+			)
+			```
+		lineageTag: 67ccbee2-87c1-4e7d-8817-9a1ddb33ac78
+
+	column Value
+		isHidden
+		formatString: 0
+		lineageTag: befaaa44-abde-476b-bb82-6c45383aa0d1
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition medidas = calculated
+		mode: import
+		source = {0}
+
+	annotation PBI_Id = 03b93310adbc4c5286d8e67fc9fca875
+

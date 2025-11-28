@@ -1,0 +1,24 @@
+table ultimaAtualizacao
+	lineageTag: 065bdd99-0166-4e95-99a6-9ebdafbcde95
+
+	column ultimaAtualizacao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c3924f80-42d8-433a-940c-230df458f5ef
+		summarizeBy: none
+		sourceColumn: ultimaAtualizacao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ultimaAtualizacao = m
+		mode: import
+		source =
+				let
+				    Fonte = DateTimeZone.SwitchZone(DateTimeZone.LocalNow(), -3)
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = DateTimeZone
+

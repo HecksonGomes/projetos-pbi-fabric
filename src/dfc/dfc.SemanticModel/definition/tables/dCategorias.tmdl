@@ -1,0 +1,42 @@
+table dCategorias
+	lineageTag: ac4d915a-1430-4697-8f19-8884d7943f91
+
+	column ID
+		dataType: string
+		lineageTag: 336be645-57ae-4618-a011-9e4c94367957
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column NomeCategoria
+		dataType: string
+		lineageTag: b75832a9-242c-4baa-ba56-fa5046ae79fe
+		summarizeBy: none
+		sourceColumn: NomeCategoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column TipoMovimentacao
+		dataType: string
+		lineageTag: d3083a70-75cf-4065-b83d-b0154331d2f2
+		summarizeBy: none
+		sourceColumn: TipoMovimentacao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dCategorias = m
+		mode: import
+		source =
+				let
+				    Source = SharePoint.Tables( site_powerapps, [ApiVersion = 15] )
+				     {[Title="BaseCategorias"]}[Items],
+				    Tabela = Source[ [ID], [NomeCategoria], [TipoMovimentacao] ],
+				    #"Changed Type" = Table.TransformColumnTypes(Tabela,{{"ID", type text}, {"NomeCategoria", type text}, {"TipoMovimentacao", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

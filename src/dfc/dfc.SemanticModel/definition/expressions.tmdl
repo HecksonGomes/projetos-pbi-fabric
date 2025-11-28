@@ -1,0 +1,7 @@
+expression site_powerapps = "https://omahadash.sharepoint.com/sites/PowerApps/" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=false]
+	lineageTag: 5c3a70b5-68be-4511-af25-5b934b4b3e1c
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

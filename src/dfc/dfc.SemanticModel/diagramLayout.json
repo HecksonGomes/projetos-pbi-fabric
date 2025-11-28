@@ -1,0 +1,87 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "dCategorias",
+          "nodeLineageTag": "ac4d915a-1430-4697-8f19-8884d7943f91",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 375,
+            "y": 81
+          },
+          "nodeIndex": "dSubCategorias",
+          "nodeLineageTag": "73a641d8-76c0-4437-a22e-d009ce466955",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 488,
+            "y": 350
+          },
+          "nodeIndex": "fMovimentos",
+          "nodeLineageTag": "acfe6192-607a-4f15-9a20-567cc2606b5b",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 759,
+            "y": 63
+          },
+          "nodeIndex": "dCalendario",
+          "nodeLineageTag": "6f76f453-8428-44e6-9598-091bf619868c",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 3,
+          "expandedHeight": 224
+        },
+        {
+          "location": {
+            "x": 1043,
+            "y": 139
+          },
+          "nodeIndex": "medidas",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

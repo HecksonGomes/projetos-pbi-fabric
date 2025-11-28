@@ -1,0 +1,80 @@
+table fMovimentos
+	lineageTag: acfe6192-607a-4f15-9a20-567cc2606b5b
+
+	column DataMovimentacao
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 45327ae7-7c84-41a6-9ca9-f8568b80d11d
+		summarizeBy: none
+		sourceColumn: DataMovimentacao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ID
+		dataType: string
+		lineageTag: 830e50fe-c904-42bd-8c4c-57a9364d1ce7
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column IdBaseCategoria
+		dataType: string
+		lineageTag: d28f116f-789b-4a76-ae65-24932bbd1005
+		summarizeBy: none
+		sourceColumn: IdBaseCategoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column IdBaseMovimentacao
+		dataType: string
+		lineageTag: f477d533-4596-4075-9b40-90bb3ec606f5
+		summarizeBy: none
+		sourceColumn: IdBaseMovimentacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column ValorMovimentacao
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 5aea2110-1d05-4c2f-b11e-c3808def1c37
+		summarizeBy: none
+		sourceColumn: ValorMovimentacao
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column Status
+		dataType: string
+		lineageTag: ac00ae13-b190-4a3a-a693-2a84c78bfb5a
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column DescricaoMovimentacao
+		dataType: string
+		lineageTag: bb5e0ba4-efd9-4f2b-b17d-c23b85c28e5a
+		summarizeBy: none
+		sourceColumn: DescricaoMovimentacao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fMovimentos = m
+		mode: import
+		source =
+				let
+				    Source = SharePoint.Tables( site_powerapps, [ApiVersion = 15] )
+				     {[Title="Movimentacoes"]}[Items],
+				    Tabela = Source[ [DataMovimentacao] , [ID], [IdBaseCategoria], [IdBaseMovimentacao], [ValorMovimentacao] , [Status], [DescricaoMovimentacao]],
+				    TipoDados = Table.TransformColumnTypes(Tabela,{{"ID", type text}, {"IdBaseCategoria", type text}, {"IdBaseMovimentacao", type text}, {"Status", type text}, {"DescricaoMovimentacao", type text}, {"ValorMovimentacao", Currency.Type}, {"DataMovimentacao", type date}})
+				in
+				    TipoDados
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

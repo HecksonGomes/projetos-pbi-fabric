@@ -1,0 +1,12 @@
+relationship f24e033b-1e7d-de63-2508-c923191e8ceb
+	fromColumn: fMovimentos.DataMovimentacao
+	toColumn: dCalendario.Data
+
+relationship ec3d8191-766d-888c-7d42-5ba021325a49
+	fromColumn: fMovimentos.IdBaseMovimentacao
+	toColumn: dSubCategorias.ID
+
+relationship 82409274-0475-a9e0-99d7-953398968339
+	fromColumn: dSubCategorias.IdBaseCategoria
+	toColumn: dCategorias.ID
+
