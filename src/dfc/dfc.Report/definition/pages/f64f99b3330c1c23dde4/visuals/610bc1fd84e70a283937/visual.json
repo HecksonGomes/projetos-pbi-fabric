@@ -10,7 +10,7 @@
     "tabOrder": 5000
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "clusteredColumnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -178,13 +178,6 @@
                   }
                 }
               }
-            },
-            "transparency": {
-              "expr": {
-                "Literal": {
-                  "Value": "81D"
-                }
-              }
             }
           },
           "selector": {
@@ -203,184 +196,10 @@
                   }
                 }
               }
-            },
-            "transparency": {
-              "expr": {
-                "Literal": {
-                  "Value": "80D"
-                }
-              }
             }
           },
           "selector": {
             "metadata": "medidas.Total de saidas"
-          }
-        }
-      ],
-      "lineStyles": [
-        {
-          "properties": {
-            "areaShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "strokeWidth": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
-                }
-              }
-            },
-            "lineChartType": {
-              "expr": {
-                "Literal": {
-                  "Value": "'smooth'"
-                }
-              }
-            },
-            "interpolationSmooth": {
-              "expr": {
-                "Literal": {
-                  "Value": "'cardinal'"
-                }
-              }
-            },
-            "showMarker": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "markerSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
-                }
-              }
-            },
-            "markerColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 0,
-                      "Percent": 0
-                    }
-                  }
-                }
-              }
-            },
-            "markerShape": {
-              "expr": {
-                "Literal": {
-                  "Value": "'circle'"
-                }
-              }
-            }
-          }
-        },
-        {
-          "properties": {
-            "markerColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 0,
-                      "Percent": 0
-                    }
-                  }
-                }
-              }
-            },
-            "markerSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "3D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "medidas.Total de entradas"
-          }
-        },
-        {
-          "properties": {
-            "markerSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "3D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "medidas.Total de saidas"
-          }
-        }
-      ],
-      "markers": [
-        {
-          "properties": {
-            "borderShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "borderColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 0,
-                      "Percent": 0
-                    }
-                  }
-                }
-              }
-            },
-            "borderWidth": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "medidas.Total de entradas"
-          }
-        },
-        {
-          "properties": {
-            "borderShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "borderColorMatchFill": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "borderWidth": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
-                }
-              }
-            }
           }
         }
       ],
@@ -391,13 +210,6 @@
               "expr": {
                 "Literal": {
                   "Value": "'TopCenter'"
-                }
-              }
-            },
-            "legendMarkerRendering": {
-              "expr": {
-                "Literal": {
-                  "Value": "'lineOnly'"
                 }
               }
             },
@@ -412,33 +224,6 @@
               "expr": {
                 "Literal": {
                   "Value": "8D"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "y2Axis": [
-        {
-          "properties": {
-            "secStart": {
-              "expr": {
-                "Literal": {
-                  "Value": "0D"
-                }
-              }
-            },
-            "secLabelDisplayUnits": {
-              "expr": {
-                "Literal": {
-                  "Value": "1000D"
-                }
-              }
-            },
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
                 }
               }
             }
